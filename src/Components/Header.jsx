@@ -3,7 +3,7 @@ import Weather from './Weather'
 const Header = () => {
   return (
     <>
-        <header className='flex flex-wrap justify-between p-5 border-b-2 sticky top-0 border-b-gray-300'>
+        <header className='flex flex-wrap justify-between p-5 border-b-2 sticky top-0 border-b-gray-300 bg-white'>
           <section className="weather-title flex justify-center">
             <div className='title-logo'>
                 <img src="images/weatherapp-logo-main1.png" className='max-w-3xs' alt="" />
