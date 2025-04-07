@@ -76,7 +76,7 @@ const Header = () => {
         </section>
       </header>
       <section className=''>
-        <Weather weatherData ={weatherData}/>
+        <Weather weatherData ={weatherData} api_key={api_key}/>
       </section>
     </>
   )
