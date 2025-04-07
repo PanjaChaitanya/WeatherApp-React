@@ -33,7 +33,7 @@ const Weather = ({weatherData}) => {
 
   return (
     <>
-    <main className='weather-main m-3 flex flex-wrap gap-2 min-h-screen'>
+    <main className='weather-main m-3 flex flex-wrap gap-2'>
         <aside className=''>
             <section className='current-weather'>
                 <div className='weather-card shadow-xl border-1 border-gray-100 p-2'>
@@ -63,7 +63,7 @@ const Weather = ({weatherData}) => {
             </section>
             <section className='weather-highlights'>
                 <h2 className='text-2xl font-bold mt-2 mb-1'>Highlights</h2>
-                <div className="highlights-card shadow-xl p-2 border-1 border-sky-100 rounded-xl">
+                <div className="highlights-card shadow-xl p-2 border-1 border-sky-100 rounded-xl flex flex-col gap-2">
                     {/* <div className="air-quality flex justify-between">
                         <p>Air quality</p>
                         <button className=''>Good</button>
@@ -84,7 +84,7 @@ const Weather = ({weatherData}) => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex'>
+                    <div className='tempratures flex justify-between'>
                         <div className="temp-high flex items-center">
                             <img src="icons/high-temp.png" alt="" />
                             <div className=''>
@@ -97,6 +97,22 @@ const Weather = ({weatherData}) => {
                             <div>
                                 <p className='text-sky-300'>Lowest</p>
                                 <p className='sun-time font-semibold'>{weatherData.main.temp_min}&deg;c</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='flex justify-between'>
+                        <div className='humidity flex'>
+                            <img src="icons/humidity.png" className='max-w-10' alt="" />
+                            <div>
+                                <p className='text-sky-300'>Humidity</p>
+                                <p className='font-semibold'>{weatherData.main.humidity}</p>
+                            </div>
+                        </div>
+                        <div className='visibility flex'>
+                            <img src="icons/visibility.png" className='max-w-10' alt="" />
+                            <div>
+                                <p className='text-sky-300'>Visibility</p>
+                                <p className='font-semibold'>{(weatherData.visibility/1000).toFixed(1)} Km</p>
                             </div>
                         </div>
                     </div>
