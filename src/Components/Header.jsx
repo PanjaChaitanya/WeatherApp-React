@@ -4,6 +4,7 @@ import Weather from './Weather'
 const Header = () => {
 
   const [weatherData, setWeatherData] = useState([])
+  const [forecastData, setForecastData] = useState([])
   let api_key = '76a427aa28f8c63c16dde43bd96a8fcd';
 
   const currentLocationWeather = () =>{
@@ -19,11 +20,10 @@ const Header = () => {
         }).catch((error)=>{
           console.log(error)
         })
-
         fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`)
         .then(response => response.json())
-        .then((data)=>{
-          console.log(data)
+        .then((fdata)=>{
+          setForecastData(fdata)
         }).catch((error)=>{
           console.log(error)
         })
@@ -76,7 +76,7 @@ const Header = () => {
         </section>
       </header>
       <section className=''>
-        <Weather weatherData ={weatherData} api_key={api_key}/>
+        <Weather weatherData ={weatherData} forecastData={forecastData} api_key={api_key}/>
       </section>
     </>
   )

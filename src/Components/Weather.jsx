@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-const Weather = ({weatherData,api_key}) => {
+const Weather = ({weatherData,forecastData}) => {
     
     
     if (!weatherData.main) {
@@ -10,8 +10,34 @@ const Weather = ({weatherData,api_key}) => {
     const [presentDate, setPresentDate] = useState(null)
     const [sunRiseTime, setSunRiseTime] = useState('')
     const [sunSetTime, setSunSetTime] = useState('')
-    const [forecastData, setForecastData] = useState([])
 
+    const [maxTemp, setMaxTemp] = useState(null);
+    const [minTemp, setMinTemp] = useState(null);
+    useEffect(() => {
+        if (forecastData?.list?.length) {
+          const today = new Date().toISOString().split("T")[0];
+    
+          const todayForecasts = forecastData.list.filter(item =>
+            item.dt_txt.startsWith(today)
+          );
+    
+          const temps = todayForecasts.map(item => item.main.temp);
+          setMaxTemp(Math.max(...temps));
+          setMinTemp(Math.min(...temps));
+        }
+      }, [forecastData]);
+    
+    const weatherImages = {
+        "01d": "sunny.png", "01n": "clear-night.png",
+        "02d": "few-clouds-day.png","02n": "few-clouds-night.png",
+        "03d": "scattered-clouds.png", "03n": "scattered-clouds.png",
+        "04d": "broken-clouds.png", "04n": "broken-clouds.png",
+        "09d": "shower-rain.png", "09n": "shower-rain.png",
+        "10d": "rain-day.png", "10n": "rain-night.png",
+        "11d": "thunderstorm-day.png", "11n": "thunderstorm-night.png",
+        "13d": "snow-day.png", "13n": "snow-night.png",
+        "50d": "mist-day.png", "50n": "mist-night.png"
+    };
     const SunRise_SunSetTime =(timestamp)=>{
 
         const date = new Date(timestamp * 1000);
@@ -68,7 +94,7 @@ const Weather = ({weatherData,api_key}) => {
                 <table className="w-full text-sm">
                     <tbody>
                         {/* sun rise - sun set */}
-                        <tr className="border-b border-sky-100">
+                        <tr className="border-b border-sky-100 hover:border-b-sky-300">
                             <td className="p-2">
                                 <img src="images/sunrise.png" className="max-w-14" alt="sunrise.png" />
                             </td>
@@ -83,32 +109,32 @@ const Weather = ({weatherData,api_key}) => {
                                 <p className="text-sky-300">Sunset</p>
                                 <p className="font-semibold">{sunSetTime} PM</p>
                             </td>
-                        </tr>
+                        </tr >
                         {/* Temperatures */}
-                        <tr className="border-b border-sky-100">
+                        <tr className="border-b border-sky-100 hover:border-b-sky-300">
                             <td className="p-2">
                                 <img src="icons/high-temp.png" className="max-w-10" alt="high-temp" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Highest</p>
-                                <p className="font-semibold">{weatherData.main.temp_max}&deg;c</p>
+                                <p className="font-semibold">{maxTemp}&deg;c</p>
                             </td>
                             <td className="p-2">
                                 <img src="icons/low-temp.png" className="max-w-10" alt="low-temp" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Lowest</p>
-                                <p className="font-semibold">{weatherData.main.temp_min}&deg;c</p>
+                                <p className="font-semibold">{minTemp}&deg;c</p>
                             </td>
                         </tr>
                         {/* Humidity - Wind */}
-                        <tr className='border-b border-sky-100'>
+                        <tr className='border-b border-sky-100 hover:border-b-sky-300'>
                             <td className="p-2">
                                 <img src="icons/humidity.png" className="max-w-10" alt="humidity" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Humidity</p>
-                                <p className="font-semibold">{weatherData.main.humidity}</p>
+                                <p className="font-semibold">{weatherData.main.humidity} %</p>
                             </td>
                             <td className="p-2">
                                 <img src="icons/wind.png" className="max-w-8" alt="visibility" />
