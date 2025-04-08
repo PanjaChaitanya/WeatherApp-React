@@ -30,14 +30,16 @@ const Weather = ({weatherData,forecastData}) => {
     const weatherImages = {
         "01d": "sunny.png", "01n": "clear-night.png",
         "02d": "few-clouds-day.png","02n": "few-clouds-night.png",
-        "03d": "scattered-clouds.png", "03n": "scattered-clouds.png",
+        "03d": "scattered-clouds-day.png", "03n": "scattered-clouds-night.png",
         "04d": "broken-clouds.png", "04n": "broken-clouds.png",
         "09d": "shower-rain.png", "09n": "shower-rain.png",
         "10d": "rain-day.png", "10n": "rain-night.png",
-        "11d": "thunderstorm-day.png", "11n": "thunderstorm-night.png",
+        "11d": "thunderstorm.png", "11n": "thunderstorm.png",
         "13d": "snow-day.png", "13n": "snow-night.png",
         "50d": "mist-day.png", "50n": "mist-night.png"
     };
+    const iconCode = weatherImages[weatherData.weather[0].icon]
+    const icon = `/icons/${iconCode}`
     const SunRise_SunSetTime =(timestamp)=>{
 
         const date = new Date(timestamp * 1000);
@@ -80,7 +82,7 @@ const Weather = ({weatherData,forecastData}) => {
                             <img src="icons/thermometer.png" className='max-w-7' alt="" />
                             <h1 className='text-4xl font-bold'>{weatherData.main.temp}&deg;c</h1>
                         </div>
-                        <img src="images/7.png" alt="cloud-image" />
+                        <img src={icon} alt="default.png" />
                     </div>
                     <div className='card-footer flex justify-between'>
                        <p className='text-gray-500'> Feels like {weatherData.main.feels_like}&deg;c </p>
