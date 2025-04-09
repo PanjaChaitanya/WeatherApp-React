@@ -1,12 +1,16 @@
 import React from 'react'
 import { useState, useEffect} from 'react'
 import Weather from './Weather'
+import WeatherSkeleton from './WeatherSkeleton'
 const Header = () => {
 
   const [weatherData, setWeatherData] = useState([])
   const [forecastData, setForecastData] = useState([])
   const [searchedData, setSearchedData] = useState([])
   const [city, setCity] = useState('')
+
+  const [isLoading, setIsLoading] = useState(true);
+
   let api_key = '76a427aa28f8c63c16dde43bd96a8fcd';
 
   const currentLocationWeather = () =>{
@@ -19,6 +23,7 @@ const Header = () => {
         .then(response => response.json())
         .then((data)=>{
           setWeatherData(data)
+          setIsLoading(false)
         }).catch((error)=>{
           console.log(error)
         })
@@ -31,6 +36,7 @@ const Header = () => {
         })
       }catch(error){
         console.log(error);
+        setIsLoading(false)
       }
     }
     let currentPositionError = async(error)=>{
@@ -100,7 +106,10 @@ const Header = () => {
         </section>
       </header>
       <section className=''>
+      {isLoading ? 
+        <WeatherSkeleton /> : 
         <Weather weatherData ={weatherData} forecastData={forecastData} searchedData={searchedData} api_key={api_key}/>
+      }
       </section>
     </>
   )
