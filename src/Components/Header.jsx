@@ -5,6 +5,8 @@ const Header = () => {
 
   const [weatherData, setWeatherData] = useState([])
   const [forecastData, setForecastData] = useState([])
+  const [searchedData, setSearchedData] = useState([])
+  const [city, setCity] = useState('')
   let api_key = '76a427aa28f8c63c16dde43bd96a8fcd';
 
   const currentLocationWeather = () =>{
@@ -35,10 +37,30 @@ const Header = () => {
        console.log(error)
     }
     //navigator geolocation getacurrentposition is pre defined js object to get users location. It takes two functions as params  first one is executed when succes and it returns an object , second fun is executed when there is an error
-    navigator.geolocation.getCurrentPosition(getCurrentWeather, currentPositionError);
+    navigator.geolocation.getCurrentPosition(getCurrentWeather, currentPositionError,
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      })
+  }
+  const searchLocation = () =>{
+    if(!city){
+      alert("Enter a city Name")
+      return;
+    }
+    console.log(city)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=metric`)
+    .then(response => response.json())
+    .then((sdata)=>{
+      setSearchedData(sdata)
+    }).catch((error)=>{
+      console.log(error)
+    })
   }
   useEffect(() => {
     console.log("Updated weatherData:", weatherData);
+    console.log("forecastData :", forecastData);
   }, [weatherData]);
   return (
     <>
@@ -58,9 +80,11 @@ const Header = () => {
                 type="text"
                 id="name"
                 placeholder="Enter Location"
+                value={city}
+                onChange={(e)=>setCity(e.target.value)}
                 className="bg-gray-100 text-indigo-900 px-3 py-1 focus:outline-none border-b-2 border-gray-300 focus:border-sky-300 w-[150px] sm:w-[200px] md:w-[250px]"
               />
-              <button className="bg-sky-300 cursor-pointer rounded-full p-1 hover:shadow-black hover:shadow-xs">
+              <button onClick={searchLocation} className="bg-sky-300 cursor-pointer rounded-full p-1 hover:shadow-black hover:shadow-xs">
                 <img src="images/search.svg" className="w-6 h-6" alt="Search" />
               </button>
             </div>
@@ -76,7 +100,7 @@ const Header = () => {
         </section>
       </header>
       <section className=''>
-        <Weather weatherData ={weatherData} forecastData={forecastData} api_key={api_key}/>
+        <Weather weatherData ={weatherData} forecastData={forecastData} searchedData={searchedData} api_key={api_key}/>
       </section>
     </>
   )

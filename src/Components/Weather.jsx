@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-const Weather = ({weatherData,forecastData}) => {
+const Weather = ({ weatherData, searchedData, forecastData }) => {
     
     
     if (!weatherData.main) {
@@ -40,6 +40,8 @@ const Weather = ({weatherData,forecastData}) => {
     };
     const iconCode = weatherImages[weatherData.weather[0].icon]
     const icon = `/icons/${iconCode}`
+    
+
     const SunRise_SunSetTime =(timestamp)=>{
 
         const date = new Date(timestamp * 1000);
@@ -53,17 +55,18 @@ const Weather = ({weatherData,forecastData}) => {
         return `${hours}:${mins}`;
     }
     useEffect(() => {
-        let date = new Date()
-        setPresentDate(date.toDateString())
-        setSunRiseTime(SunRise_SunSetTime(weatherData.sys.sunrise))
-        setSunSetTime(SunRise_SunSetTime(weatherData.sys.sunset))
-    }, [])
+        if (weatherData.sys) {
+            setPresentDate(new Date().toDateString());
+            setSunRiseTime(SunRise_SunSetTime(weatherData.sys.sunrise));
+            setSunSetTime(SunRise_SunSetTime(weatherData.sys.sunset));
+        }
+    }, [weatherData]);    
 
     
   return (
     <>
-    <main className='weather-main m-3 flex flex-wrap gap-2'>
-        <aside className=''>
+    <main className='weather-main m-3 flex flex-wrap sm:flex-nowrap gap-2'>
+        <aside className='w-full sm:w-1/4 md:1/2'>
             <section className='current-weather'>
                 <div className='weather-card shadow-xl border-1 border-gray-100 p-2'>
                     <div className='date-location border-b-1 border-gray-400'>
@@ -161,8 +164,20 @@ const Weather = ({weatherData,forecastData}) => {
                 </div>
             </section>
         </aside>
-        <article className='border-2 border-blue-500'>
-            <section className='hourly-forecast'></section>
+        <article className='w-full sm:w-3/4 md:1/2 border-1 border-gray-100 p-4 rounded-2xl shadow-xl'>
+        <section className='hourly-forecast'>
+            <h3 className="text-lg font-bold">Hourly Forecast</h3>
+            <div className='flex flex-wrap gap-1 justify-center'>
+                {forecastData?.list?.slice(0, 7).map((item, index) => (
+                <div key={index} className='border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-4'>
+                    <p>{item.dt_txt}</p>
+                    <img src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
+                    <p>{item.weather[0].description}</p>
+                    <p>{item.main.temp}&deg;c</p>
+                </div>
+                ))}
+            </div>
+            </section>
             <section className='upcoming-forecast'></section>
         </article>
     </main>
