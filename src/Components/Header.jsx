@@ -5,7 +5,8 @@ import WeatherSkeleton from './WeatherSkeleton'
 const Header = () => {
 
   const [weatherData, setWeatherData] = useState([])
-  const [forecastData, setForecastData] = useState([])
+  const [hForecastData, setHForecastData] = useState([])
+  const [day7ForecastData, SetDay7ForecastData] = useState([])
   const [searchedData, setSearchedData] = useState([])
   const [city, setCity] = useState('')
 
@@ -19,6 +20,8 @@ const Header = () => {
        let lat = positionData.coords.latitude;
        let lon = positionData.coords.longitude;
        try{
+
+        // api for fetching current weather
          fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`)
         .then(response => response.json())
         .then((data)=>{
@@ -27,10 +30,21 @@ const Header = () => {
         }).catch((error)=>{
           console.log(error)
         })
+
+        // api for fetching hourly forecast data
         fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`)
         .then(response => response.json())
         .then((fdata)=>{
-          setForecastData(fdata)
+          setHForecastData(fdata)
+        }).catch((error)=>{
+          console.log(error)
+        })
+        // api for fetching 7 days forecast data
+        // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
+        fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${lat}&lon=${lon}&cnt=${7}&appid=${api_key}&units=metric`)
+        .then(response => response.json())
+        .then((SevenDaysData)=>{
+          SetDay7ForecastData(SevenDaysData)
         }).catch((error)=>{
           console.log(error)
         })
@@ -66,7 +80,8 @@ const Header = () => {
   }
   useEffect(() => {
     console.log("Updated weatherData:", weatherData);
-    console.log("forecastData :", forecastData);
+    console.log("forecastData :", hForecastData);
+    console.log("7 days forecast:", day7ForecastData);
   }, [weatherData]);
   return (
     <>
@@ -108,7 +123,7 @@ const Header = () => {
       <section className=''>
       {isLoading ? 
         <WeatherSkeleton /> : 
-        <Weather weatherData ={weatherData} forecastData={forecastData} searchedData={searchedData} api_key={api_key}/>
+        <Weather weatherData ={weatherData} hForecastData={hForecastData} SevenDaysForecastData={day7ForecastData} searchedData={searchedData} api_key={api_key}/>
       }
       </section>
     </>

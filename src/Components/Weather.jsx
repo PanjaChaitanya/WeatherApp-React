@@ -1,12 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-const Weather = ({ weatherData, searchedData, forecastData }) => {
+const Weather = ({ weatherData, searchedData, hForecastData, SevenDaysForecastData}) => {
     
     
-    if (!weatherData.main) {
-        return <div className='p-5 text-center text-lg'>Click on "Current Location" to fetch weather data.</div>;
-    }
+  
     const [presentDate, setPresentDate] = useState(null)
     const [sunRiseTime, setSunRiseTime] = useState('')
     const [sunSetTime, setSunSetTime] = useState('')
@@ -14,10 +12,10 @@ const Weather = ({ weatherData, searchedData, forecastData }) => {
     const [maxTemp, setMaxTemp] = useState(null);
     const [minTemp, setMinTemp] = useState(null);
     useEffect(() => {
-        if (forecastData?.list?.length) {
+        if (hForecastData?.list?.length) {
           const today = new Date().toISOString().split("T")[0];
     
-          const todayForecasts = forecastData.list.filter(item =>
+          const todayForecasts = hForecastData.list.filter(item =>
             item.dt_txt.startsWith(today)
           );
     
@@ -25,7 +23,7 @@ const Weather = ({ weatherData, searchedData, forecastData }) => {
           setMaxTemp(Math.max(...temps));
           setMinTemp(Math.min(...temps));
         }
-      }, [forecastData]);
+      }, [hForecastData]);
     
     const weatherImages = {
         "01d": "sunny.png", "01n": "clear-night.png",
@@ -166,19 +164,48 @@ const Weather = ({ weatherData, searchedData, forecastData }) => {
         </aside>
         <article className='w-full sm:w-3/4 md:1/2 border-1 border-gray-100 p-4 rounded-2xl shadow-xl'>
         <section className='hourly-forecast'>
-            <h3 className="text-lg font-bold">Hourly Forecast</h3>
-            <div className='flex flex-wrap gap-1 justify-center'>
-                {forecastData?.list?.slice(0, 7).map((item, index) => (
-                <div key={index} className='border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-4'>
-                    <p>{item.dt_txt}</p>
-                    <img src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
-                    <p>{item.weather[0].description}</p>
-                    <p>{item.main.temp}&deg;c</p>
-                </div>
+            <h3 className="text-lg font-bold text-sky-300">Hourly Forecast</h3>
+            <div className='flex flex-wrap gap-3 justify-center'>
+                {hForecastData?.list?.slice(0, 6).map((item, index) => (
+                    <div key={index} className='border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-2'>
+                        <p className='text-xs font-semibold'>{item.dt_txt}</p>
+                        <img src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
+                        <p>{item.weather[0].description}</p>
+                        <p>{item.main.temp}&deg;c</p>
+                    </div>
                 ))}
             </div>
             </section>
-            <section className='upcoming-forecast'></section>
+            <section className='upcoming-forecast'>
+            <div className="max-w-xl mx-auto mt-10 px-4 space-y-4">
+      <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
+        <summary className="cursor-pointer px-4 py-3 bg-blue-600 text-white font-semibold rounded-t-lg">
+          What is Tailwind CSS?
+        </summary>
+        <div className="px-4 py-3 bg-white text-gray-700">
+          Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
+        </div>
+      </details>
+
+      <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
+        <summary className="cursor-pointer px-4 py-3 bg-blue-600 text-white font-semibold rounded-t-lg">
+          What is React?
+        </summary>
+        <div className="px-4 py-3 bg-white text-gray-700">
+          React is a JavaScript library for building user interfaces using a component-based architecture.
+        </div>
+      </details>
+
+      <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
+        <summary className="cursor-pointer px-4 py-3 bg-blue-600 text-white font-semibold rounded-t-lg">
+          Why use Tailwind with React?
+        </summary>
+        <div className="px-4 py-3 bg-white text-gray-700">
+          Tailwind + React allows for fast UI development with reusable components and clean utility styling.
+        </div>
+      </details>
+    </div>
+            </section>
         </article>
     </main>
     </>
