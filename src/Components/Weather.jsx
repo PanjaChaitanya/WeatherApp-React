@@ -74,21 +74,21 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                 <div className='weather-card shadow-xl border-1 border-gray-100 p-2'>
                     <div className='date-location border-b-1 border-gray-400'>
                         <div className="location flex items-center gap-2">
-                            <img src="icons/location.png" className='max-w-4' alt="" />
+                            <img loading='lazy' src="icons/location.png" className='max-w-4' alt="" />
                             <span className='text-gray-500 font-semibold'>{weatherData.name}, {weatherData.sys.country}</span>
                         </div>
                         <div className="date flex items-center gap-2">
-                            <img src="icons/date.png" className='max-w-4' alt="" />
+                            <img loading='lazy' src="icons/date.png" className='max-w-4' alt="" />
                             <span className='text-gray-500 font-semibold'>{presentDate}</span>
                         </div>
                     </div>
                     <h2 className='font-bold text-sky-300'>Now</h2>
                     <div className='flex justify-between items-center'>
                         <div className='flex'>
-                            <img src="icons/thermometer.png" className='max-w-7' alt="" />
+                            <img loading='lazy' src="icons/thermometer.png" className='max-w-7' alt="" />
                             <h1 className='text-4xl font-bold'>{weatherData.main.temp}&deg;c</h1>
                         </div>
-                        <img src={icon} alt="default.png" />
+                        <img loading='lazy' src={icon} alt="default.png" />
                     </div>
                     <div className='card-footer flex justify-between'>
                        <p className='text-gray-500'> Feels like {weatherData.main.feels_like}&deg;c </p>
@@ -104,14 +104,14 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                         {/* sun rise - sun set */}
                         <tr className="border-b border-sky-100 hover:border-b-sky-300">
                             <td className="p-2">
-                                <img src="images/sunrise.png" className="max-w-14" alt="sunrise.png" />
+                                <img loading='lazy' src="images/sunrise.png" className="max-w-14" alt="sunrise.png" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Sunrise</p>
                                 <p className="font-semibold">{sunRiseTime} AM</p>
                             </td>
                             <td className="p-2">
-                                <img src="images/sunset.png" className="max-w-14" alt="sunset.png" />
+                                <img loading='lazy' src="images/sunset.png" className="max-w-14" alt="sunset.png" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Sunset</p>
@@ -121,14 +121,14 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                         {/* Temperatures */}
                         <tr className="border-b border-sky-100 hover:border-b-sky-300">
                             <td className="p-2">
-                                <img src="icons/high-temp.png" className="max-w-10" alt="high-temp" />
+                                <img loading='lazy' src="icons/high-temp.png" className="max-w-10" alt="high-temp" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Highest</p>
                                 <p className="font-semibold">{maxTemp}&deg;c</p>
                             </td>
                             <td className="p-2">
-                                <img src="icons/low-temp.png" className="max-w-10" alt="low-temp" />
+                                <img loading='lazy' src="icons/low-temp.png" className="max-w-10" alt="low-temp" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Lowest</p>
@@ -138,14 +138,14 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                         {/* Humidity - Wind */}
                         <tr className='border-b border-sky-100 hover:border-b-sky-300'>
                             <td className="p-2">
-                                <img src="icons/humidity.png" className="max-w-10" alt="humidity" />
+                                <img loading='lazy' src="icons/humidity.png" className="max-w-10" alt="humidity" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Humidity</p>
                                 <p className="font-semibold">{weatherData.main.humidity} %</p>
                             </td>
                             <td className="p-2">
-                                <img src="icons/wind.png" className="max-w-8" alt="visibility" />
+                                <img loading='lazy' src="icons/wind.png" className="max-w-8" alt="visibility" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Wind</p>
@@ -155,7 +155,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                         {/* visibility */}
                         <tr>
                             <td className="p-2">
-                                <img src="icons/visibility.png" className="max-w-10" alt="visibility" />
+                                <img loading='lazy' src="icons/visibility.png" className="max-w-10" alt="visibility" />
                             </td>
                             <td className="p-2">
                                 <p className="text-sky-300">Visibility</p>
@@ -174,7 +174,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                     {hForecastData?.list?.slice(0, 6).map((item, index) => (
                         <div key={index} className='border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-2'>
                             <p className='text-xs font-semibold'>{item.dt_txt}</p>
-                            <img src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
+                            <img loading='lazy' src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
                             <p>{item.weather[0].description}</p>
                             <p>{item.main.temp}&deg;c</p>
                         </div>
@@ -191,13 +191,14 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                                 <p>{item.main.temp}&deg;C</p>
                                 <div className="flex items-center gap-2">
                                 <img
+                                    loading='lazy'
                                     src={`/icons/${weatherImages[item.weather[0]?.icon]}`}
                                     className="w-6 h-6"
                                     alt="Weather Icon"
                                 />
                                 <p>{item.weather[0].description}</p>
                                 </div>
-                                <img src="/icons/down-arrow.png" className="w-6 h-6" alt="Arrow" />
+                                <img loading='lazy' src="/icons/down-arrow.png" className="w-6 h-6" alt="Arrow" />
                             </summary>
                             <div className="px-4 py-3 bg-white text-gray-700 overflow-x-auto">
                                 <table className="w-full">
@@ -205,14 +206,14 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                                         {/* Feels Like & Humidity */}
                                         <tr className="border-b border-sky-100 hover:border-b-sky-300">
                                         <td className="p-2">
-                                            <img src="/icons/feelslike.png" className="max-w-10" alt="Feels Like" />
+                                            <img loading='lazy' src="/icons/feelslike.png" className="max-w-10" alt="Feels Like" />
                                         </td>
                                         <td className="p-2">
                                             <p className="text-sky-300">Feels Like</p>
                                             <p className="font-semibold">{item.main.feels_like}&deg;C</p>
                                         </td>
                                         <td className="p-2">
-                                            <img src="/icons/humidity.png" className="max-w-10" alt="Humidity" />
+                                            <img loading='lazy' src="/icons/humidity.png" className="max-w-10" alt="Humidity" />
                                         </td>
                                         <td className="p-2">
                                             <p className="text-sky-300">Humidity</p>
@@ -223,23 +224,21 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                                         {/* Wind Speed & Date */}
                                         <tr className="border-b border-sky-100 hover:border-b-sky-300">
                                         <td className="p-2">
-                                            <img src="/icons/wind.png" className="max-w-10" alt="Wind" />
+                                            <img loading='lazy' src="/icons/wind.png" className="max-w-10" alt="Wind" />
                                         </td>
                                         <td className="p-2">
                                             <p className="text-sky-300">Wind Speed</p>
                                             <p className="font-semibold">{item.wind.speed} m/s</p>
                                         </td>
                                         <td className="p-2">
-                                            <img src="/icons/clock.png" className="max-w-10" alt="Time" />
+                                            <img loading='lazy' src="/icons/clock.png" className="max-w-10" alt="Time" />
                                         </td>
                                         <td className="p-2" colSpan="3">
                                             <p className="text-sky-300">Time</p>
                                             <p className="font-semibold">{item.dt_txt.split(" ")[1]}</p>
                                         </td>
                                         </tr>
-
                                         {/* Time */}
-                                    
                                     </tbody>
                                 </table>
                             </div>
