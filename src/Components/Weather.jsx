@@ -1,9 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-const Weather = ({ weatherData, searchedData, hForecastData, SevenDaysForecastData}) => {
+const Weather = ({ weatherData, searchedData, hForecastData}) => {
     
-    
+    if (!weatherData.main) {
+        return <div className='p-5 text-center text-lg'>Click on "Current Location" to fetch weather data.</div>;
+    }  
   
     const [presentDate, setPresentDate] = useState(null)
     const [sunRiseTime, setSunRiseTime] = useState('')
@@ -178,33 +180,16 @@ const Weather = ({ weatherData, searchedData, hForecastData, SevenDaysForecastDa
             </section>
             <section className='upcoming-forecast'>
             <div className="max-w-xl mx-auto mt-10 px-4 space-y-4">
-      <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
-        <summary className="cursor-pointer px-4 py-3 bg-blue-600 text-white font-semibold rounded-t-lg">
-          What is Tailwind CSS?
-        </summary>
-        <div className="px-4 py-3 bg-white text-gray-700">
-          Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
-        </div>
-      </details>
 
-      <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
-        <summary className="cursor-pointer px-4 py-3 bg-blue-600 text-white font-semibold rounded-t-lg">
-          What is React?
-        </summary>
-        <div className="px-4 py-3 bg-white text-gray-700">
-          React is a JavaScript library for building user interfaces using a component-based architecture.
-        </div>
-      </details>
-
-      <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
-        <summary className="cursor-pointer px-4 py-3 bg-blue-600 text-white font-semibold rounded-t-lg">
-          Why use Tailwind with React?
-        </summary>
-        <div className="px-4 py-3 bg-white text-gray-700">
-          Tailwind + React allows for fast UI development with reusable components and clean utility styling.
-        </div>
-      </details>
-    </div>
+                <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
+                    <summary className="cursor-pointer px-4 py-3  text-gray-500 font-semibold rounded-t-lg">
+                        What is Tailwind CSS?
+                    </summary>
+                    <div className="px-4 py-3 bg-white text-gray-700">
+                        Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
+                    </div>
+                </details>
+            </div>
             </section>
         </article>
     </main>

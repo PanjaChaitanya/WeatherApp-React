@@ -1,22 +1,21 @@
 import React from 'react'
 import { useState, useEffect} from 'react'
 import Weather from './Weather'
-import WeatherSkeleton from './WeatherSkeleton'
 const Header = () => {
 
   const [weatherData, setWeatherData] = useState([])
   const [hForecastData, setHForecastData] = useState([])
-  const [day7ForecastData, SetDay7ForecastData] = useState([])
   const [searchedData, setSearchedData] = useState([])
   const [city, setCity] = useState('')
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isRevealed, setIsRevealed] = useState(false);
 
   let api_key = '76a427aa28f8c63c16dde43bd96a8fcd';
 
   const currentLocationWeather = () =>{
-
+    setIsRevealed(true)
     let getCurrentWeather = async(positionData)=>{
+
        let lat = positionData.coords.latitude;
        let lon = positionData.coords.longitude;
        try{
@@ -24,33 +23,17 @@ const Header = () => {
         // api for fetching current weather
          fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`)
         .then(response => response.json())
-        .then((data)=>{
-          setWeatherData(data)
-          setIsLoading(false)
-        }).catch((error)=>{
-          console.log(error)
-        })
+        .then((data)=>{ setWeatherData(data) })
+        .catch((error)=>{ console.log(error) })
 
         // api for fetching hourly forecast data
         fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`)
         .then(response => response.json())
-        .then((fdata)=>{
-          setHForecastData(fdata)
-        }).catch((error)=>{
-          console.log(error)
-        })
-        // api for fetching 7 days forecast data
-        // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
-        fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?lat=${lat}&lon=${lon}&cnt=${7}&appid=${api_key}&units=metric`)
-        .then(response => response.json())
-        .then((SevenDaysData)=>{
-          SetDay7ForecastData(SevenDaysData)
-        }).catch((error)=>{
-          console.log(error)
-        })
+        .then((fdata)=>{ setHForecastData(fdata) })
+        .catch((error)=>{ console.log(error) })
+
       }catch(error){
         console.log(error);
-        setIsLoading(false)
       }
     }
     let currentPositionError = async(error)=>{
@@ -81,10 +64,20 @@ const Header = () => {
   useEffect(() => {
     console.log("Updated weatherData:", weatherData);
     console.log("forecastData :", hForecastData);
-    console.log("7 days forecast:", day7ForecastData);
   }, [weatherData]);
   return (
     <>
+     <div className='relative overflow-hidden h-screen'> 
+       {/* Curtain Banner */}
+      <div className={`curtain-banner fixed top-0 left-0 w-full h-full bg-[#F6F6F6] flex flex-col gap-3 items-center justify-center z-10 transition-all duration-1000 ${isRevealed ? "-translate-y-full" : "translate-y-0"
+      }`}>
+
+        <img src="images/weatherapp-banner.png" className='max-w-96' alt="" />
+        <button className='bg-sky-300 font-semibold px-6 py-2 text-gray-900 rounded-3xl shadow-md hover:cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-300 ease-in-out' onClick={currentLocationWeather}>
+          CONTINUE
+        </button>
+      </div>
+
       <header className="flex flex-wrap justify-between items-center gap-4 p-5 border-b-2 sticky top-0 border-b-gray-300 bg-white">
         {/* Title Section */}
         <section className="flex justify-center flex-1 min-w-[200px]">
@@ -120,12 +113,11 @@ const Header = () => {
             </div>
         </section>
       </header>
+
       <section className=''>
-      {isLoading ? 
-        <WeatherSkeleton /> : 
-        <Weather weatherData ={weatherData} hForecastData={hForecastData} SevenDaysForecastData={day7ForecastData} searchedData={searchedData} api_key={api_key}/>
-      }
+        <Weather weatherData ={weatherData} hForecastData={hForecastData} searchedData={searchedData} api_key={api_key}/>
       </section>
+     </div>
     </>
   )
 }
