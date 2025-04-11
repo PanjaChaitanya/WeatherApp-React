@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import WeatherSkeleton from './WeatherSkeleton';
 
 const Weather = ({ weatherData, hForecastData, daysForecast}) => {
     
     if (!weatherData.main) {
-        return <div className='p-5 text-center text-lg'>Click on "Current Location" to fetch weather data.</div>;
+        return <WeatherSkeleton/>;
     }  
   
     const [presentDate, setPresentDate] = useState(null)
@@ -168,7 +169,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
         </aside>
         <article className='w-full sm:w-3/4 md:1/2 border-1 border-gray-100 p-4 rounded-2xl shadow-xl overflow-y-scroll max-h-screen'>
             <section className='hourly-forecast'>
-                <h3 className="text-lg font-bold text-sky-300">Hourly Forecast</h3>
+                <h3 className="text-lg font-bold text-[#66CAD0]">Hourly Forecast</h3>
                 <div className='flex flex-wrap gap-3 justify-center'>
                     {hForecastData?.list?.slice(0, 6).map((item, index) => (
                         <div key={index} className='border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-2'>
@@ -181,7 +182,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                 </div>
             </section>
             <section className='upcoming-forecast mt-5'>
-                <h3 className="text-lg font-bold text-sky-300">5 - Days Forecast</h3>
+                <h3 className="text-lg font-bold text-[#66CAD0]">5 - Days Forecast</h3>
                 <div className="mx-auto px-4 space-y-4">
                     {daysForecast.map((item, index) => (
                         <details key={index} className="border border-sky-100 rounded-lg shadow group open:ring-2 open:ring-blue-300">

@@ -85,7 +85,7 @@ const Header = () => {
       }`}>
 
         <img src="images/weatherapp-banner.png" className='max-w-96' alt="" />
-        <button className='bg-sky-300 font-semibold px-6 py-2 text-gray-900 rounded-3xl shadow-md hover:cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-300 ease-in-out' onClick={currentLocationWeather}>
+        <button className='bg-[#66CAD0] font-bold px-6 py-2 text-white rounded-3xl shadow-md hover:cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-300 ease-in-out' onClick={currentLocationWeather}>
           CONTINUE
         </button>
       </div>
@@ -117,7 +117,7 @@ const Header = () => {
 
             {/* Current Location Button */}
             <div
-              className="bg-sky-300 cursor-pointer px-3 py-2 rounded-2xl font-bold flex items-center gap-1 max-h-10"
+              className="bg-[#7df8ff] cursor-pointer px-3 py-2 rounded-2xl font-bold flex items-center gap-1 max-h-10"
               onClick={currentLocationWeather}
             >
               <img src="images/target.png" className="w-5 h-5" alt="Target" />
