@@ -5,6 +5,8 @@ const Header = () => {
 
   const [weatherData, setWeatherData] = useState([])
   const [hForecastData, setHForecastData] = useState([])
+  const [daysForecast, setDaysForecast] = useState([])
+  
   const [searchedData, setSearchedData] = useState([])
   const [city, setCity] = useState('')
 
@@ -26,15 +28,25 @@ const Header = () => {
         .then((data)=>{ setWeatherData(data) })
         .catch((error)=>{ console.log(error) })
 
-        // api for fetching hourly forecast data
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`)
-        .then(response => response.json())
-        .then((fdata)=>{ setHForecastData(fdata) })
-        .catch((error)=>{ console.log(error) })
+      // api for fetching hourly forecast data
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`)
+      .then(response => response.json())
+      .then((fdata) => {
+        setHForecastData(fdata);
+        // only filter after data is available
+        const dayForecastData = fdata.list.filter(item => item.dt_txt.includes("12:00:00"));
+        setDaysForecast(dayForecastData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
 
       }catch(error){
         console.log(error);
       }
+      const dayForecastData = hForecastData.list.filter(item => item.dt_txt.includes("12:00:00"))
+      setDaysForecast(dayForecastData);
     }
     let currentPositionError = async(error)=>{
        console.log(error)
@@ -67,7 +79,7 @@ const Header = () => {
   }, [weatherData]);
   return (
     <>
-     <div className='relative overflow-hidden h-screen'> 
+     <div className='relative h-screen'> 
        {/* Curtain Banner */}
       <div className={`curtain-banner fixed top-0 left-0 w-full h-full bg-[#F6F6F6] flex flex-col gap-3 items-center justify-center z-10 transition-all duration-1000 ${isRevealed ? "-translate-y-full" : "translate-y-0"
       }`}>
@@ -115,7 +127,7 @@ const Header = () => {
       </header>
 
       <section className=''>
-        <Weather weatherData ={weatherData} hForecastData={hForecastData} searchedData={searchedData} api_key={api_key}/>
+        <Weather weatherData ={weatherData} hForecastData={hForecastData} searchedData={searchedData} daysForecast={daysForecast} api_key={api_key}/>
       </section>
      </div>
     </>

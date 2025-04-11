@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-const Weather = ({ weatherData, searchedData, hForecastData}) => {
+const Weather = ({ weatherData, hForecastData, daysForecast}) => {
     
     if (!weatherData.main) {
         return <div className='p-5 text-center text-lg'>Click on "Current Location" to fetch weather data.</div>;
@@ -13,6 +13,7 @@ const Weather = ({ weatherData, searchedData, hForecastData}) => {
 
     const [maxTemp, setMaxTemp] = useState(null);
     const [minTemp, setMinTemp] = useState(null);
+
     useEffect(() => {
         if (hForecastData?.list?.length) {
           const today = new Date().toISOString().split("T")[0];
@@ -25,6 +26,7 @@ const Weather = ({ weatherData, searchedData, hForecastData}) => {
           setMaxTemp(Math.max(...temps));
           setMinTemp(Math.min(...temps));
         }
+       
       }, [hForecastData]);
     
     const weatherImages = {
@@ -66,7 +68,7 @@ const Weather = ({ weatherData, searchedData, hForecastData}) => {
   return (
     <>
     <main className='weather-main m-3 flex flex-wrap sm:flex-nowrap gap-2'>
-        <aside className='w-full sm:w-1/4 md:1/2'>
+        <aside className='w-full sm:w-1/4 md:1/2 overflow-hidden max-h-screen'>
             <section className='current-weather'>
                 <div className='weather-card shadow-xl border-1 border-gray-100 p-2'>
                     <div className='date-location border-b-1 border-gray-400'>
@@ -164,32 +166,87 @@ const Weather = ({ weatherData, searchedData, hForecastData}) => {
                 </div>
             </section>
         </aside>
-        <article className='w-full sm:w-3/4 md:1/2 border-1 border-gray-100 p-4 rounded-2xl shadow-xl'>
-        <section className='hourly-forecast'>
-            <h3 className="text-lg font-bold text-sky-300">Hourly Forecast</h3>
-            <div className='flex flex-wrap gap-3 justify-center'>
-                {hForecastData?.list?.slice(0, 6).map((item, index) => (
-                    <div key={index} className='border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-2'>
-                        <p className='text-xs font-semibold'>{item.dt_txt}</p>
-                        <img src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
-                        <p>{item.weather[0].description}</p>
-                        <p>{item.main.temp}&deg;c</p>
-                    </div>
-                ))}
-            </div>
+        <article className='w-full sm:w-3/4 md:1/2 border-1 border-gray-100 p-4 rounded-2xl shadow-xl overflow-y-scroll max-h-screen'>
+            <section className='hourly-forecast'>
+                <h3 className="text-lg font-bold text-sky-300">Hourly Forecast</h3>
+                <div className='flex flex-wrap gap-3 justify-center'>
+                    {hForecastData?.list?.slice(0, 6).map((item, index) => (
+                        <div key={index} className='border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-2'>
+                            <p className='text-xs font-semibold'>{item.dt_txt}</p>
+                            <img src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
+                            <p>{item.weather[0].description}</p>
+                            <p>{item.main.temp}&deg;c</p>
+                        </div>
+                    ))}
+                </div>
             </section>
-            <section className='upcoming-forecast'>
-            <div className="max-w-xl mx-auto mt-10 px-4 space-y-4">
+            <section className='upcoming-forecast mt-5'>
+                <h3 className="text-lg font-bold text-sky-300">5 - Days Forecast</h3>
+                <div className="mx-auto px-4 space-y-4">
+                    {daysForecast.map((item, index) => (
+                        <details key={index} className="border border-sky-100 rounded-lg shadow group open:ring-2 open:ring-blue-300">
+                            <summary className="cursor-pointer px-4 py-3 text-gray-500 open:text-sky-300 font-semibold flex items-center justify-between rounded-t-lg">
+                                <p>{item.dt_txt.split(" ")[0]}</p>
+                                <p>{item.main.temp}&deg;C</p>
+                                <div className="flex items-center gap-2">
+                                <img
+                                    src={`/icons/${weatherImages[item.weather[0]?.icon]}`}
+                                    className="w-6 h-6"
+                                    alt="Weather Icon"
+                                />
+                                <p>{item.weather[0].description}</p>
+                                </div>
+                                <img src="/icons/down-arrow.png" className="w-6 h-6" alt="Arrow" />
+                            </summary>
+                            <div className="px-4 py-3 bg-white text-gray-700 overflow-x-auto">
+                                <table className="w-full">
+                                    <tbody>
+                                        {/* Feels Like & Humidity */}
+                                        <tr className="border-b border-sky-100 hover:border-b-sky-300">
+                                        <td className="p-2">
+                                            <img src="/icons/feelslike.png" className="max-w-10" alt="Feels Like" />
+                                        </td>
+                                        <td className="p-2">
+                                            <p className="text-sky-300">Feels Like</p>
+                                            <p className="font-semibold">{item.main.feels_like}&deg;C</p>
+                                        </td>
+                                        <td className="p-2">
+                                            <img src="/icons/humidity.png" className="max-w-10" alt="Humidity" />
+                                        </td>
+                                        <td className="p-2">
+                                            <p className="text-sky-300">Humidity</p>
+                                            <p className="font-semibold">{item.main.humidity}%</p>
+                                        </td>
+                                        </tr>
 
-                <details className="border rounded-lg shadow group open:ring-2 open:ring-blue-300">
-                    <summary className="cursor-pointer px-4 py-3  text-gray-500 font-semibold rounded-t-lg">
-                        What is Tailwind CSS?
-                    </summary>
-                    <div className="px-4 py-3 bg-white text-gray-700">
-                        Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.
-                    </div>
-                </details>
-            </div>
+                                        {/* Wind Speed & Date */}
+                                        <tr className="border-b border-sky-100 hover:border-b-sky-300">
+                                        <td className="p-2">
+                                            <img src="/icons/wind.png" className="max-w-10" alt="Wind" />
+                                        </td>
+                                        <td className="p-2">
+                                            <p className="text-sky-300">Wind Speed</p>
+                                            <p className="font-semibold">{item.wind.speed} m/s</p>
+                                        </td>
+                                        <td className="p-2">
+                                            <img src="/icons/clock.png" className="max-w-10" alt="Time" />
+                                        </td>
+                                        <td className="p-2" colSpan="3">
+                                            <p className="text-sky-300">Time</p>
+                                            <p className="font-semibold">{item.dt_txt.split(" ")[1]}</p>
+                                        </td>
+                                        </tr>
+
+                                        {/* Time */}
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    ))}
+                </div>
+
+
             </section>
         </article>
     </main>
