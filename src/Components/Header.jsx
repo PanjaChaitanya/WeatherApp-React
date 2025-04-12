@@ -7,7 +7,6 @@ const Header = () => {
   const [hForecastData, setHForecastData] = useState([])
   const [daysForecast, setDaysForecast] = useState([])
   
-  const [searchedData, setSearchedData] = useState([])
   const [city, setCity] = useState('')
 
   const [isRevealed, setIsRevealed] = useState(false);
@@ -59,20 +58,36 @@ const Header = () => {
         maximumAge: 0
       })
   }
-  const searchLocation = () =>{
-    if(!city){
-      alert("Enter a city Name")
+  const searchLocation = async () => {
+    if (!city) {
+      alert("Enter a city name");
       return;
     }
-    console.log(city)
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=metric`)
-    .then(response => response.json())
-    .then((sdata)=>{
-      setSearchedData(sdata)
-    }).catch((error)=>{
-      console.log(error)
-    })
-  }
+  
+    setIsRevealed(true); // Hide the curtain
+  
+    try {
+      const [weatherRes, forecastRes] = await Promise.all([
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=metric`),
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api_key}&units=metric`)
+      ]);
+  
+      const weatherData = await weatherRes.json();
+      const forecastData = await forecastRes.json();
+  
+      setWeatherData(weatherData);
+      setHForecastData(forecastData);
+  
+      const dayForecastData = forecastData.list.filter(item => item.dt_txt.includes("12:00:00"));
+      setDaysForecast(dayForecastData);
+  
+      setCity(''); // Optional: clear input
+  
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  };
+  
   useEffect(() => {
     console.log("Updated weatherData:", weatherData);
     console.log("forecastData :", hForecastData);
@@ -127,7 +142,7 @@ const Header = () => {
       </header>
 
       <section className=''>
-        <Weather weatherData ={weatherData} hForecastData={hForecastData} searchedData={searchedData} daysForecast={daysForecast} api_key={api_key}/>
+        <Weather weatherData ={weatherData} hForecastData={hForecastData} daysForecast={daysForecast} api_key={api_key}/>
       </section>
      </div>
     </>
