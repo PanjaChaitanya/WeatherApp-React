@@ -64,7 +64,7 @@ const Header = () => {
       return;
     }
   
-    setIsRevealed(true); // Hide the curtain
+    setIsRevealed(true);
   
     try {
       const [weatherRes, forecastRes] = await Promise.all([

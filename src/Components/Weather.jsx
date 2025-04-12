@@ -68,7 +68,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
     
   return (
     <>
-    <main className='weather-main m-3 flex flex-wrap sm:flex-nowrap gap-2'>
+    <main className='weather-main m-3 flex flex-wrap sm:flex-nowrap gap-2 h-screen'>
         <aside className='w-full sm:w-1/4 md:1/2 overflow-hidden max-h-screen'>
             <section className='current-weather'>
                 <div className='weather-card shadow-xl border-1 border-gray-100 p-2'>
@@ -86,7 +86,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                     <div className='flex justify-between items-center'>
                         <div className='flex'>
                             <img loading='lazy' src="icons/thermometer.png" className='max-w-7' alt="" />
-                            <h1 className='text-4xl font-bold'>{weatherData.main.temp}&deg;c</h1>
+                            <h1 className='text-4xl font-bold text-[#2B506B]'>{weatherData.main.temp}&deg;c</h1>
                         </div>
                         <img loading='lazy' src={icon} alt="default.png" />
                     </div>
@@ -97,7 +97,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                 </div>
             </section>
             <section className='weather-highlights'>
-                <h2 className='text-2xl font-bold mt-2 mb-1'>Highlights</h2>
+                <h2 className='text-2xl text-[#66CAD0] font-bold mt-2 mb-1'>Highlights</h2>
                 <div className='border border-sky-100 rounded-2xl shadow-xl'>
                 <table className="w-full text-sm">
                     <tbody>
@@ -167,14 +167,14 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                 </div>
             </section>
         </aside>
-        <article className='w-full sm:w-3/4 md:1/2 border-1 border-gray-100 p-4 rounded-2xl shadow-xl overflow-y-scroll max-h-screen'>
+        <article className='w-full sm:w-3/4 md:1/2 border-1 border-gray-100 p-4 rounded-2xl shadow-xl overflow-y-scroll'>
             <section className='hourly-forecast'>
                 <h3 className="text-lg font-bold text-[#66CAD0]">Hourly Forecast</h3>
                 <div className='flex flex-wrap gap-3 justify-center'>
                     {hForecastData?.list?.slice(0, 6).map((item, index) => (
                         <div key={index} className='flex flex-col items-center border-1 border-gray-100 cursor-pointer rounded-2xl hover:shadow-xl p-2'>
                             <p className='text-xs font-semibold'>{item.dt_txt}</p>
-                            <img loading='lazy' src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="" />
+                            <img loading='lazy' src={`/icons/${weatherImages[item.weather[0]?.icon]}`} alt="weatherimage" />
                             <p className='capitalize font-semibold text-[#2B506B]'>{item.weather[0].description}</p>
                             <p>{item.main.temp}&deg;c</p>
                         </div>
@@ -183,13 +183,13 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
             </section>
             <section className="upcoming-forecast mt-5 px-4 sm:px-6 lg:px-8">
                 <h3 className="text-lg font-bold text-[#66CAD0] mb-4">5 - Days Forecast</h3> 
-                <div className="space-y-4">
+                <div className="space-y-4 ">
                     {daysForecast.map((item, index) => (
                     <details key={index} className="border border-sky-100 rounded-lg shadow group open:ring-2 open:ring-blue-300">
                         
                         <summary className="cursor-pointer px-4 py-3 text-gray-500 open:text-sky-300 font-semibold flex flex-wrap items-center justify-between gap-2 rounded-t-lg">
-                        <p className="min-w-[80px]">{item.dt_txt.split(" ")[0]}</p>
-                        <p className="min-w-[70px]">{item.main.temp}&deg;C</p>
+                        <p className="text-[#2B506B] min-w-[80px]">{item.dt_txt.split(" ")[0]}</p>
+                        <p className="text-[#2B506B] min-w-[70px]">{item.main.temp}&deg;C</p>
                         
                         <div className="flex items-center gap-2 min-w-[140px]">
                             <img
@@ -198,7 +198,7 @@ const Weather = ({ weatherData, hForecastData, daysForecast}) => {
                             className="w-6 h-6"
                             alt="Weather Icon"
                             />
-                            <p className="capitalize">{item.weather[0].description}</p>
+                            <p className="capitalize text-[#2B506B]">{item.weather[0].description}</p>
                         </div>
 
                         <img
