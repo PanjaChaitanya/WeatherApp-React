@@ -32,10 +32,11 @@ WeatherApp-React is a responsive web app that shows the current weather and fore
 This stack (“built with React and Vite”) enables quick development and a sleek UI. Tailwind CSS ensures the app is **fully responsive** across devices.
 
 ## 📷 Screenshots
+| Banner                           | Home                         | Forecast                               |
+| ------------------------------------------ | -------------------------------------- | --------------------------------------- |
+| ![Banner](screenshots/HomeBanner.png) | ![BMI](screenshots/Home.png) | ![Stopwatch](screenshots/Forecast.png) |
 
-&#x20;*Screenshot: WeatherApp-React UI on a smartphone (dark theme).* The app’s clean interface (above) is built with React and styled with Tailwind CSS. It prominently shows the current temperature and icon.
-
-&#x20;*Screenshot: Main weather display (example city).* In this screenshot, WeatherApp-React is showing the current weather (24°C, cloudy) for a searched city. The layout uses card-like panels and clear typography to present weather data in an easy-to-read format.
+> 💡 All screenshots are located inside the `screenshots/` folder.
 
 ## 🚀 Getting Started
 
