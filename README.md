@@ -3,8 +3,12 @@
 [![GitHub stars](https://img.shields.io/github/stars/PanjaChaitanya/WeatherApp-React?style=social)](https://github.com/PanjaChaitanya/WeatherApp-React) [![GitHub forks](https://img.shields.io/github/forks/PanjaChaitanya/WeatherApp-React?style=social)](https://github.com/PanjaChaitanya/WeatherApp-React) [![License: MIT](https://img.shields.io/badge/License-MIT-green)]()
 
 ## 🌐 Live Demo
+<div align="center">
+  <img src="public/images/fitpool.png" alt="Fit Pool Logo" width="120" height="120"/>
+  <p>WeatherApp-React running in a browserp</p>
+  <b>(live at [weatherapp-vite.vercel.app](https://weatherapp-vite.vercel.app/))</b>
+</div>
 
-&#x20;*Screenshot: WeatherApp-React running in a mobile browser (live at [weatherapp-vite.vercel.app](https://weatherapp-vite.vercel.app/)).*
 
 Visit the live app to see current weather conditions in action. WeatherApp-React fetches **real-time weather data** from OpenWeatherMap’s API, which “provides comprehensive weather details” for any location. Users can enter a city name or use the current-location button to load local weather (via Geolocation) – for example, searching **“New York City”** retrieves its latest temperature and conditions. The UI (as shown above) highlights the current temperature, weather icon, and other details clearly.
 
