@@ -4,7 +4,7 @@
 
 ## 🌐 Live Demo
 <div align="center">
-  <img src="public/images/fitpool.png" alt="Fit Pool Logo" width="120" height="120"/>
+  <img src="screenshots/Home.png" alt="Home Page"/>
   <p>WeatherApp-React running in a browserp</p>
   <b>(live at [weatherapp-vite.vercel.app](https://weatherapp-vite.vercel.app/))</b>
 </div>
